@@ -2,56 +2,39 @@ const fsPromise = require('node:fs/promises');
 const fs = require('node:fs');
 const { error } = require('node:console');
 
-const obtenerTabla = async (multiplicando) => {
-    return new Promise((resolve, reject) => {
-        try {
-            console.clear();
-            console.log("=====================================");
-            console.log(`Tabla del ${multiplicando}`);
-            console.log("=====================================");
-            let multiplicadorLimite = 10;
-            let salida = '';
-            for (let index = 1; index <= multiplicadorLimite; index++)
-                salida += `${multiplicando} X ${index} = ${multiplicando * index}\n`;
-            resolve(salida);
-        } catch (error) {
-            reject('Ocurrio un error al proceso la tabla')
-        }
-    })
+const obtenerTabla = (multiplicando) => {
+    console.clear();
+    console.log("=====================================");
+    console.log(`Tabla del ${multiplicando}`);
+    console.log("=====================================");
+    let multiplicadorLimite = 10;
+    let salida = '';
+    for (let index = 1; index <= multiplicadorLimite; index++)
+        salida += `${multiplicando} X ${index} = ${multiplicando * index}\n`;
+    return salida;
 }
 
-const usarWriteFile = async (nameFile, dataFile) => {
+const usarWriteFile = async (nameFile, dataFile = '') => {
     return new Promise((resolve, reject) => {
-        try {
-            const data = new Uint8Array(Buffer.from(dataFile));
-            fs.writeFile(nameFile, data, (err) => {
-                if (err) reject(err);
-                resolve(`El archivo ${nameFile} ha sido guardado satisfactoriamente!`);
-            });
-        } catch (error) {
-            reject(error);
-        }
+        const data = new Uint8Array(Buffer.from(dataFile));
+        fs.writeFile(nameFile, data, (err) => {
+            if (err) return reject(err);
+            resolve(`El archivo ${nameFile} ha sido guardado satisfactoriamente!`);
+        });
     })
 }
 
 const usarWriteFilePromise = async (nameFile, dataFile, signal) => {
-    try {
-        const data = new Uint8Array(Buffer.from(dataFile));
-        await fsPromise.writeFile(nameFile, data, { signal });
-        return `El archivo ${nameFile} ha sido guardado satisfactoriamente!`;
-    } catch (error) {
-        if (error.name === 'AbortError') {
-            console.log('Operación cancelada por el controlador externo.');
-        }
-        throw error; 
-    }
+    const data = new Uint8Array(Buffer.from(dataFile));
+    await fsPromise.writeFile(nameFile, data, { signal });
+    return `El archivo ${nameFile} ha sido guardado satisfactoriamente!`;
 }
 
 let parametro = 5;
 
 const procesoPrincipal = async (numero) => {
     try {
-        let tablaString = await obtenerTabla(numero);
+        let tablaString = obtenerTabla(numero);
         // *******************************************************************************************
         // Usando funcion con callback
         // *******************************************************************************************
@@ -63,9 +46,7 @@ const procesoPrincipal = async (numero) => {
         // *******************************************************************************************
         const controller = new AbortController();
         // Ejemplo práctico: Cancelar la escritura si tarda más de 50 milisegundos
-        setTimeout(() => {
-            controller.abort();
-        }, 50);
+        setTimeout(() => controller.abort(), 50);
         let messageWrite = await usarWriteFilePromise(`tabla-${parametro}.txt`, tablaString, controller.signal);
         // *******************************************************************************************
         return `${tablaString}
