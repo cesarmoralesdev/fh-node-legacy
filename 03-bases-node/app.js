@@ -30,25 +30,39 @@ const usarWriteFilePromise = async (nameFile, dataFile, signal) => {
     return `El archivo ${nameFile} ha sido guardado satisfactoriamente!`;
 }
 
+const usarWriteFilePromiseSync = (nameFile, dataFile) => {
+    const data = new Uint8Array(Buffer.from(dataFile));
+    fs.writeFileSync(nameFile, data);
+    return `El archivo ${nameFile} ha sido guardado satisfactoriamente!`;
+}
+
+
 let parametro = 5;
 
 const procesoPrincipal = async (numero) => {
     try {
         let tablaString = obtenerTabla(numero);
         // *******************************************************************************************
-        // Usando funcion con callback
+        // Forma 1: Usando funcion con callback
         // *******************************************************************************************
         // let messageWrite = await usarWriteFile(`tabla-${parametro}.txt`, tablaString);
         // *******************************************************************************************
 
         // *******************************************************************************************
-        // Usando funcion con Promise
+        // Forma 2: Usando funcion con Promise
         // *******************************************************************************************
-        const controller = new AbortController();
-        // Ejemplo práctico: Cancelar la escritura si tarda más de 50 milisegundos
-        setTimeout(() => controller.abort(), 50);
-        let messageWrite = await usarWriteFilePromise(`tabla-${parametro}.txt`, tablaString, controller.signal);
+        // const controller = new AbortController();
+        // // Ejemplo práctico: Cancelar la escritura si tarda más de 50 milisegundos
+        // setTimeout(() => controller.abort(), 50);
+        // let messageWrite = await usarWriteFilePromise(`tabla-${parametro}.txt`, tablaString, controller.signal);
         // *******************************************************************************************
+        
+        // *******************************************************************************************
+        // Forma 2: Usando funcion sincrona
+        // *******************************************************************************************
+        let messageWrite = await usarWriteFilePromiseSync(`tabla-${parametro}.txt`, tablaString);
+        // *******************************************************************************************
+        
         return `${tablaString}
         ${messageWrite}
         `;
