@@ -1,4 +1,4 @@
-const obtenerTabla = (multiplicando) => {
+const obtenerTabla = (multiplicando, mostrarListado) => {
     console.clear();
     console.log("=====================================");
     console.log(`Tabla del ${multiplicando}`);
