@@ -26,7 +26,7 @@ const procesoPrincipal = async (parametro, limite, mostrarListado) => {
         // *******************************************************************************************
         // Forma 2: Usando funcion sincrona
         // *******************************************************************************************
-        let messageWrite = await usarWriteFilePromiseSync(`tabla-${parametro}.txt`, tablaString);
+        let messageWrite = await usarWriteFilePromiseSync(`./03-bases-node/salida/tabla-${parametro}.txt`, tablaString);
         // *******************************************************************************************
 
         return `${mostrarListado ? salidaColores : ''}
