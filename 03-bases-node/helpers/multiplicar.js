@@ -1,12 +1,13 @@
+const colors = require('colors');
 const obtenerTabla = (multiplicando, mostrarListado) => {
     console.clear();
-    console.log("=====================================");
-    console.log(`Tabla del ${multiplicando}`);
-    console.log("=====================================");
+    console.log("=====================================".green);
+    console.log(`${colors.green('Tabla del')} ${multiplicando.toString().blue}`);
+    console.log("=====================================".green);
     let multiplicadorLimite = 10;
     let salida = '';
     for (let index = 1; index <= multiplicadorLimite; index++)
-        salida += `${multiplicando} X ${index} = ${multiplicando * index}\n`;
+        salida += `${multiplicando} ${colors.green('X')} ${index} ${colors.green('=')} ${multiplicando * index}\n`;
     return salida;
 }
 
