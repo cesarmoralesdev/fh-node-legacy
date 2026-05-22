@@ -1,7 +1,10 @@
 const { obtenerTabla } = require('./helpers/multiplicar');
 const { usarWriteFile, usarWriteFilePromise, usarWriteFilePromiseSync } = require('./helpers/archivo');
 
-let parametro = 5;
+const [, , argBase = 'base=5'] = process.argv;
+const [, base] = argBase.split('=')
+
+const parametro = base;
 
 const procesoPrincipal = async (numero) => {
     try {
@@ -20,13 +23,13 @@ const procesoPrincipal = async (numero) => {
         // setTimeout(() => controller.abort(), 50);
         // let messageWrite = await usarWriteFilePromise(`tabla-${parametro}.txt`, tablaString, controller.signal);
         // *******************************************************************************************
-        
+
         // *******************************************************************************************
         // Forma 2: Usando funcion sincrona
         // *******************************************************************************************
         let messageWrite = await usarWriteFilePromiseSync(`tabla-${parametro}.txt`, tablaString);
         // *******************************************************************************************
-        
+
         return `${tablaString}
         ${messageWrite}
         `;
