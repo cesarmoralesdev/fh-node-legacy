@@ -1,10 +1,14 @@
+const yargs = require('yargs');
+const { hideBin } = require('yargs/helpers');
+const argv = yargs(hideBin(process.argv)).parse()
+
 const { obtenerTabla } = require('./helpers/multiplicar');
 const { usarWriteFile, usarWriteFilePromise, usarWriteFilePromiseSync } = require('./helpers/archivo');
 
-const [, , argBase = 'base=5'] = process.argv;
-const [, base = 5] = argBase.split('=')
+// const [, , argBase = 'base=5'] = process.argv;
+// const [, base = 5] = argBase.split('=')
 
-const parametro = base;
+const parametro = argv['base'] || 4;
 
 const procesoPrincipal = async (numero) => {
     try {
