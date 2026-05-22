@@ -14,4 +14,4 @@ node .\03-bases-node\app.js --b=9 --l
 
 node .\03-bases-node\app.js --help
 
-
+node .\03-bases-node\app.js --b=9 --h=20 --l

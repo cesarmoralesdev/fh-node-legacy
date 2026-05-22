@@ -2,11 +2,12 @@ const { obtenerTabla } = require('./helpers/multiplicar');
 const { usarWriteFile, usarWriteFilePromise, usarWriteFilePromiseSync } = require('./helpers/archivo');
 const argv = require('./config/yargs');
 const numero = argv['base'] || 4;
-const mostrarListado = argv['listar'];
+const limite = argv['hasta'] || 10;
+const mostrarListado = argv['listar'] || false;
 
-const procesoPrincipal = async (parametro, mostrarListado = false) => {
+const procesoPrincipal = async (parametro, limite, mostrarListado) => {
     try {
-        let tablaString = obtenerTabla(numero);
+        let { salida: tablaString, salidaColores } = obtenerTabla(numero, limite);
         // *******************************************************************************************
         // Forma 1: Usando funcion con callback
         // *******************************************************************************************
@@ -28,7 +29,7 @@ const procesoPrincipal = async (parametro, mostrarListado = false) => {
         let messageWrite = await usarWriteFilePromiseSync(`tabla-${parametro}.txt`, tablaString);
         // *******************************************************************************************
 
-        return `${mostrarListado ? tablaString : ''}
+        return `${mostrarListado ? salidaColores : ''}
         ${messageWrite}
         `;
     } catch (error) {
@@ -36,7 +37,7 @@ const procesoPrincipal = async (parametro, mostrarListado = false) => {
     }
 }
 
-procesoPrincipal(numero, mostrarListado)
+procesoPrincipal(numero, limite, mostrarListado)
     .then(tablaString => {
         console.log('TABLA PROCESADA');
         console.log(tablaString);
