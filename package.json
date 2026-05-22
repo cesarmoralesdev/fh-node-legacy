@@ -1,0 +1,28 @@
+{
+  "name": "fh-node-legacy",
+  "version": "1.0.0",
+  "description": "Aplicaciones de Node.JS Legacy de Fernando Herrera",
+  "main": "index.js",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cesarmoralesdev/fh-node-legacy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cesarmoralesdev/fh-node-legacy/issues"
+  },
+  "homepage": "https://github.com/cesarmoralesdev/fh-node-legacy#readme"
+}

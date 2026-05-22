@@ -2,7 +2,7 @@ const { obtenerTabla } = require('./helpers/multiplicar');
 const { usarWriteFile, usarWriteFilePromise, usarWriteFilePromiseSync } = require('./helpers/archivo');
 
 const [, , argBase = 'base=5'] = process.argv;
-const [, base] = argBase.split('=')
+const [, base = 5] = argBase.split('=')
 
 const parametro = base;
 
