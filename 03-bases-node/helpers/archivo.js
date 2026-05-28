@@ -18,6 +18,8 @@ const usarWriteFilePromise = async (nameFile, dataFile, signal) => {
 }
 //Bloquea el hilo principal, sugerido para carga inicial de un servidor o procesos no concurrentes
 const usarWriteFilePromiseSync = (nameFile, dataFile) => {
+    const dir = './03-bases-node/salida/'
+    !fs.existsSync(dir) && fs.mkdirSync(dir);
     const data = new Uint8Array(Buffer.from(dataFile));
     fs.writeFileSync(nameFile, data);
     return `El archivo ${nameFile} ha sido guardado satisfactoriamente!`;

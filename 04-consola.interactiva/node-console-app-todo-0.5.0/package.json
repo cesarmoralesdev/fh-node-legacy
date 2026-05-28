@@ -12,6 +12,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "inquirer": "^13.4.3",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.0",
+    "yargs": "^18.0.0"
   }
 }
