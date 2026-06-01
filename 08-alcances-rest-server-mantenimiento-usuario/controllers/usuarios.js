@@ -1,5 +1,6 @@
 // Usamos estos objetos para darle un especie de tipado en mis controladores
 const { response, request } = require('express');
+const Usuario = require('../models/usuario');
 // req = request, res = response permite dar un tipado y que el IDE permita autocompletar
 const usuariosGet = (req = request, res = response) => {
     // Parametros query
@@ -15,12 +16,13 @@ const usuariosGet = (req = request, res = response) => {
     });
 }
 // Los demas son ejemplo simples
-const usuariosPost = (req, res = response) => {
-    const { nombre, edad } = req.body;
+const usuariosPost = async (req, res = response) => {
+    const body = req.body;
+    const usuario = new Usuario(body);
+    await usuario.save();
     res.json({
         msg: 'post API - usuariosPost',
-        nombre,
-        edad
+        usuario,
     });
 }
 // Usa el id que esta en params de la ruta
