@@ -1,5 +1,6 @@
 // Usamos estos objetos para darle un especie de tipado en mis controladores
 const { response, request } = require('express');
+const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 // req = request, res = response permite dar un tipado y que el IDE permita autocompletar
 const usuariosGet = (req = request, res = response) => {
@@ -19,6 +20,16 @@ const usuariosGet = (req = request, res = response) => {
 const usuariosPost = async (req, res = response) => {
     const body = req.body;
     const usuario = new Usuario(body);
+
+    // Verificar si correo existe
+
+    // Encriptar la contraseña
+    // Dependiendo el parametro de la funcion la clave puede ser mas seguro si el numero mas alto, pero demora mas en generarse
+    // Se recomienda buscar un equilibrio entre seguridad y rendimiento
+    const saltosParaGenerarClave = bcryptjs.genSaltSync(10);
+    usuario.password = bcryptjs.hashSync( body.password, saltosParaGenerarClave );
+
+    // Guardar en DB
     await usuario.save();
     res.json({
         msg: 'post API - usuariosPost',
