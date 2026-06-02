@@ -2,6 +2,7 @@
 const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
+const { validationResult } = require('express-validator');
 // req = request, res = response permite dar un tipado y que el IDE permita autocompletar
 const usuariosGet = (req = request, res = response) => {
     // Parametros query
@@ -18,6 +19,12 @@ const usuariosGet = (req = request, res = response) => {
 }
 // Los demas son ejemplo simples
 const usuariosPost = async (req, res = response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors);
+    }
+
+
     const body = req.body;
     const usuario = new Usuario(body);
 
