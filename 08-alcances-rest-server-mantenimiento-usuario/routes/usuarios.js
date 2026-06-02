@@ -11,7 +11,7 @@ const {
 } = require('../controllers/usuarios');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { esRolValido } = require('../helpers/db-validator');
+const { esRolValido, existeEmail } = require('../helpers/db-validator');
 // Creo objeto router para definir inyectarv las rutas a Express
 const router = Router();
 // Para fines educativos, uso los siguientes metodos: get, pu post, delete y patch cada uno con un contraldor distinto
@@ -24,6 +24,7 @@ router.post('/', [
     check('correo', 'El correo no es valido').isEmail(),
     // check('role','No es un rol permitiddo').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check('role').custom(esRolValido),
+    check('correo').custom(existeEmail),
     validarCampos
 ], usuariosPost);
 router.delete('/', usuariosDelete);

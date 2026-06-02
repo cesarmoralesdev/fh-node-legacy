@@ -20,9 +20,6 @@ const usuariosGet = (req = request, res = response) => {
 const usuariosPost = async (req, res = response) => {
     const body = req.body;
     const usuario = new Usuario(body);
-
-    // Verificar si correo existe
-
     // Encriptar la contraseña
     // Dependiendo el parametro de la funcion la clave puede ser mas seguro si el numero mas alto, pero demora mas en generarse
     // Se recomienda buscar un equilibrio entre seguridad y rendimiento
