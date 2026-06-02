@@ -10,6 +10,7 @@ const {
     usuariosPatch
 } = require('../controllers/usuarios');
 const { check } = require('express-validator');
+const { validarCampos } = require('../middlewares/validar-campos');
 // Creo objeto router para definir inyectarv las rutas a Express
 const router = Router();
 // Para fines educativos, uso los siguientes metodos: get, pu post, delete y patch cada uno con un contraldor distinto
@@ -17,7 +18,11 @@ const router = Router();
 router.get('/', usuariosGet);
 router.put('/:id', usuariosPut);
 router.post('/', [
-    check('correo','El correo no es valido').isEmail()
+    check('nombre','El nombre es valido').not().isEmpty(),
+    check('password','El password debe ser mayor a 6 letras').isLength({ min: 6 }),
+    check('correo','El correo no es valido').isEmail(),
+    check('role','No es un rol permitiddo').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+    validarCampos
 ],usuariosPost);
 router.delete('/', usuariosDelete);
 router.patch('/', usuariosPatch);
