@@ -24,7 +24,7 @@ const usuariosPost = async (req, res = response) => {
     // Dependiendo el parametro de la funcion la clave puede ser mas seguro si el numero mas alto, pero demora mas en generarse
     // Se recomienda buscar un equilibrio entre seguridad y rendimiento
     const saltosParaGenerarClave = bcryptjs.genSaltSync(10);
-    usuario.password = bcryptjs.hashSync( body.password, saltosParaGenerarClave );
+    usuario.password = bcryptjs.hashSync(body.password, saltosParaGenerarClave);
 
     // Guardar en DB
     await usuario.save();
@@ -34,11 +34,20 @@ const usuariosPost = async (req, res = response) => {
     });
 }
 // Usa el id que esta en params de la ruta
-const usuariosPut = (req, res = response) => {
+const usuariosPut = async (req = request, res = response) => {
     const { id } = req.params;
+    const { password, google, correo, ...resto } = req.body;
+    // TODO: Validar contra base de datos
+    if (password) {
+        // Encriptar contraseña
+        const saltosParaGenerarClave = bcryptjs.genSaltSync(10);
+        resto.password = bcryptjs.hashSync(password, saltosParaGenerarClave);
+    }
+    const usuario = await Usuario.findByIdAndUpdate(id, resto);
+
     res.json({
         msg: 'put API - usuariosPut',
-        id
+        usuario
     });
 }
 const usuariosPatch = (req, res = response) => {
