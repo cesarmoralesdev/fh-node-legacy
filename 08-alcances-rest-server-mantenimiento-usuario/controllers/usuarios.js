@@ -36,7 +36,7 @@ const usuariosPost = async (req, res = response) => {
 // Usa el id que esta en params de la ruta
 const usuariosPut = async (req = request, res = response) => {
     const { id } = req.params;
-    const { password, google, correo, ...resto } = req.body;
+    const { _id, password, google, correo, ...resto } = req.body;
     // TODO: Validar contra base de datos
     if (password) {
         // Encriptar contraseña

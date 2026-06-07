@@ -11,13 +11,18 @@ const {
 } = require('../controllers/usuarios');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { esRolValido, existeEmail } = require('../helpers/db-validator');
+const { esRolValido, existeEmail, existeUsuarioPorId } = require('../helpers/db-validator');
 // Creo objeto router para definir inyectarv las rutas a Express
 const router = Router();
 // Para fines educativos, uso los siguientes metodos: get, pu post, delete y patch cada uno con un contraldor distinto
 // Solo la ruta en este ejemplo define una variable tipo params id
 router.get('/', usuariosGet);
-router.put('/:id', usuariosPut);
+router.put('/:id', [
+    check('id', 'No es un id valido.').isMongoId(),
+    check('id').custom(existeUsuarioPorId),
+    check('role').custom(esRolValido),
+    validarCampos
+], usuariosPut);
 router.post('/', [
     check('nombre', 'El nombre es valido').not().isEmpty(),
     check('password', 'El password debe ser mayor a 6 letras').isLength({ min: 6 }),
