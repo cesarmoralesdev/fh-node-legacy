@@ -5,10 +5,21 @@ const Usuario = require('../models/usuario');
 // req = request, res = response permite dar un tipado y que el IDE permita autocompletar
 const usuariosGet = async (req = request, res = response) => {
     const { limite = 5, desde = 0 } = req.query;
-    const usuarios = await Usuario.find()
-                                            .skip(Number(desde))
-                                            .limit(Number(limite));
-    res.json(usuarios);
+    const query = { status: true };
+    // Usamos Promise.all porque ambas promesas no dependen una de la otra. En caso dependienran deberiamos almacenarlas en variables distintas y usar un await en cada variable.
+    // Con el Promise.all, si antes cada promesa tardaba un segundo y en total demoraria 2, con el Promise.all demoraria solo 1 segundo es decir la mitad.
+    // Esta forma replicarla en promesa cuyo resultado no dependan entre si
+    //[ total, usuarios ] deseestructuramos los resultados, segun la posicion de la promesa se alamcenara en la variable correspodiente
+    const [ total, usuarios ] = await Promise.all([
+        Usuario.countDocuments(query),
+        Usuario.find(query)
+                            .skip(Number(desde))
+                            .limit(Number(limite))
+    ]);
+    res.json({
+        total,
+        usuarios
+    });
 }
 // Los demas son ejemplo simples
 const usuariosPost = async (req, res = response) => {
