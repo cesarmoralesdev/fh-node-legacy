@@ -3,18 +3,12 @@ const { response, request } = require('express');
 const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuario');
 // req = request, res = response permite dar un tipado y que el IDE permita autocompletar
-const usuariosGet = (req = request, res = response) => {
-    // Parametros query
-    const { q, nombre = 'No name', apikey, page = 1, limit } = req.query;
-    // Respuesta json
-    res.json({
-        msg: 'get API - controlador',
-        q,
-        nombre,
-        apikey,
-        page,
-        limit
-    });
+const usuariosGet = async (req = request, res = response) => {
+    const { limite = 5, desde = 0 } = req.query;
+    const usuarios = await Usuario.find()
+                                            .skip(Number(desde))
+                                            .limit(Number(limite));
+    res.json(usuarios);
 }
 // Los demas son ejemplo simples
 const usuariosPost = async (req, res = response) => {
@@ -28,10 +22,7 @@ const usuariosPost = async (req, res = response) => {
 
     // Guardar en DB
     await usuario.save();
-    res.json({
-        msg: 'post API - usuariosPost',
-        usuario,
-    });
+    res.json(usuario);
 }
 // Usa el id que esta en params de la ruta
 const usuariosPut = async (req = request, res = response) => {
@@ -45,10 +36,7 @@ const usuariosPut = async (req = request, res = response) => {
     }
     const usuario = await Usuario.findByIdAndUpdate(id, resto);
 
-    res.json({
-        msg: 'put API - usuariosPut',
-        usuario
-    });
+    res.json(usuario);
 }
 const usuariosPatch = (req, res = response) => {
     res.json({
