@@ -11,6 +11,7 @@ const {
 } = require('../controllers/usuarios');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 const { esRolValido, existeEmail, existeUsuarioPorId } = require('../helpers/db-validator');
 // Creo objeto router para definir inyectarv las rutas a Express
 const router = Router();
@@ -21,7 +22,7 @@ router.put('/:id', [
     check('id', 'No es un id valido.').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     check('role').custom(esRolValido),
-    validarCampos
+    validarCampos,
 ], usuariosPut);
 router.post('/', [
     check('nombre', 'El nombre es valido').not().isEmpty(),
@@ -33,6 +34,7 @@ router.post('/', [
     validarCampos
 ], usuariosPost);
 router.delete('/:id', [
+    validarJWT,
     check('id', 'No es un id valido.').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
