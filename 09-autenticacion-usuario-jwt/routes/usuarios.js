@@ -12,6 +12,7 @@ const {
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
+const { esAdminRole } = require('../middlewares/validar-roles');
 const { esRolValido, existeEmail, existeUsuarioPorId } = require('../helpers/db-validator');
 // Creo objeto router para definir inyectarv las rutas a Express
 const router = Router();
@@ -35,6 +36,7 @@ router.post('/', [
 ], usuariosPost);
 router.delete('/:id', [
     validarJWT,
+    esAdminRole,
     check('id', 'No es un id valido.').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
