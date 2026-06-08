@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/cesarmoralesdev/fh-node-legacy/issues"
   },
-  "homepage": "https://github.com/cesarmoralesdev/fh-node-legacy#readme"
+  "homepage": "https://github.com/cesarmoralesdev/fh-node-legacy#readme",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.3"
+  }
 }
