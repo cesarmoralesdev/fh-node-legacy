@@ -56,16 +56,8 @@ const usuariosPatch = (req, res = response) => {
 }
 const usuariosDelete = async (req = request, res = response) => {
     const { id } = req.params;
-    
-    // Fisicamente borrarlo (No recomendado, por integridad, si el usuario tiene transacciones registradas o regitros realizados a el no podemos eliminarlo)
-    // const usuario = await Usuario.findByIdAndDelete(id);
-    
-    // Solo actualizamos el registro (Recomendado por integridad)
     const usuario = await Usuario.findByIdAndUpdate( id, { status: false });
-
-    res.json({
-        usuario
-    });
+    res.json(usuario);
 }
 module.exports = {
     usuariosGet,
